@@ -8,37 +8,48 @@
     :root {
       --bg: #f1de5b;
       --accent: #e13268;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html,
     body {
       margin: 0;
+      height: 100%;
+    }
+
+    body {
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
       background: var(--bg);
       color: var(--accent);
       font-family: "Arial Black", "Noto Sans KR", sans-serif;
+      overflow: hidden;
     }
 
     .result {
-      height: 90vh;
+      height: 100%;
+      max-height: 100dvh;
       width: 100%;
-      padding: 0px 20px;
+      padding: calc(clamp(18px, 3vh, 30px) + var(--safe-top)) 20px calc(clamp(22px, 3.4vh, 34px) + var(--safe-bottom));
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       text-align: center;
+      gap: 14px;
     }
 
     .title {
       margin: 0;
-      font-size: 30px;
+      font-size: clamp(24px, 7vw, 30px);
       line-height: 1.1;
       font-weight: 900;
       letter-spacing: -0.5px;
@@ -47,7 +58,7 @@
     .fortune {
       margin: 0;
       max-width: 760px;
-      font-size: 30px;
+      font-size: clamp(22px, 6.8vw, 30px);
       line-height: 1.2;
       font-weight: 900;
       letter-spacing: -0.4px;
@@ -59,7 +70,7 @@
       border: 0;
       background: transparent;
       color: var(--accent);
-      font-size: 30px;
+      font-size: clamp(22px, 7vw, 30px);
       line-height: 1;
       font-weight: 900;
       cursor: pointer;
@@ -68,6 +79,25 @@
 
     .retry:active {
       transform: scale(0.99);
+    }
+
+    @media (max-height: 740px) {
+      .result {
+        gap: 10px;
+        padding: calc(12px + var(--safe-top)) 16px calc(14px + var(--safe-bottom));
+      }
+
+      .title {
+        font-size: clamp(20px, 6vw, 24px);
+      }
+
+      .fortune {
+        font-size: clamp(18px, 5.8vw, 24px);
+      }
+
+      .retry {
+        font-size: clamp(18px, 5.8vw, 24px);
+      }
     }
   </style>
   <script src="js/fortunes.js" defer></script>

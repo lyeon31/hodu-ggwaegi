@@ -2,50 +2,61 @@
   --bg: #f1de5b;
   --accent: #e13268;
   --btn-text: #f3e2a1;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
+  height: 100%;
+}
+
+body {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg);
   color: var(--accent);
   font-family: "Arial Black", "Noto Sans KR", sans-serif;
+  overflow: hidden;
 }
 
 .top-score,
 .score {
   margin: 0;
-  font-size: 50px;
+  font-size: clamp(34px, 9vw, 50px);
   line-height: 1;
   font-weight: 900;
   letter-spacing: 2px;
+  grid-row: 1;
 }
 
 .mouth {
-  width: 70vw;
+  width: min(70vw, 440px);
   display: block;
 }
 
 .message,
 .touch,
 .finish {
-  font-size: 30px;
+  font-size: clamp(22px, 7vw, 30px);
   line-height: 1.2;
   font-weight: 900;
 }
 
 /* index */
 .intro {
-  height: 90vh;
+  height: 100%;
+  max-height: 100dvh;
   width: 100%;
-  padding: 0px 20px;
+  padding: calc(clamp(18px, 3vh, 30px) + var(--safe-top)) 20px calc(clamp(22px, 3.4vh, 34px) + var(--safe-bottom));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,25 +83,27 @@ body {
 
 /* game */
 .game {
-  height: 90vh;
-  width: 100%;
-  padding: 0px 20px 180px;
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+  max-height: 100dvh;
+  width: min(100%, 520px);
+  margin-inline: auto;
+  padding: calc(clamp(18px, 3vh, 30px) + var(--safe-top)) 20px calc(clamp(22px, 3.4vh, 34px) + var(--safe-bottom));
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  justify-items: center;
   align-items: center;
-  justify-content: flex-start;
   text-align: center;
-  gap: 10px;
+  row-gap: 8px;
   overflow: hidden;
-  position: relative;
 }
 
 .mouth-wrap {
-  --mouth-wrap-width: min(65vw, 420px);
+  --mouth-wrap-width: min(58vw, 330px);
   position: relative;
-  margin-top: auto;
+  grid-row: 2;
+  margin: 0;
   width: var(--mouth-wrap-width);
-  height: min(52vh, 420px);
+  height: min(36vh, 250px);
   flex: 0 0 auto;
   overflow: visible;
 }
@@ -102,17 +115,17 @@ body {
   height: 100%;
   display: block;
   object-fit: contain;
-  object-position: center;
+  object-position: center 44%;
 }
 
 .mouth-layer {
   position: absolute;
-  inset: 0;
+  left: 0;
+  top: 50%;
   width: 100%;
-  height: 100%;
+  height: auto;
   display: block;
-  object-fit: contain;
-  object-position: center;
+  transform: translateY(-50%);
 }
 
 .hidden {
@@ -121,7 +134,7 @@ body {
 
 .bite-nut {
   position: absolute;
-  width: 18vw;
+  width: clamp(48px, 14vw, 78px);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -42%);
@@ -138,10 +151,11 @@ body {
 
 #mouthFront {
   position: absolute;
-  inset: 0;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: auto;
+  transform: translateY(-50%);
   z-index: 3;
 }
 
@@ -162,16 +176,13 @@ body {
 }
 
 .nuts {
-  margin: 0;
-  width: min(680px, 94vw);
+  margin: 0 auto;
+  width: min(680px, 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 18px;
-  position: absolute;
-  left: 50%;
-  bottom: 74px;
-  transform: translateX(-50%);
+  grid-row: 3;
 }
 
 .nut {
@@ -183,7 +194,7 @@ body {
 }
 
 .nut img {
-  width: 18vw;
+  width: clamp(70px, 18vw, 116px);
   display: block;
   user-select: none;
   -webkit-user-drag: none;
@@ -199,22 +210,59 @@ body {
 }
 
 .finish {
-  margin: 0;
-  width: min(620px, 84vw);
-  height: 50px;
-  min-height: 50px;
+  margin: clamp(4px, 0.7vh, 8px) auto 0;
+  width: min(620px, 100%);
+  height: clamp(42px, 8vh, 50px);
+  min-height: 42px;
   border-radius: 999px;
   border: none;
   background: var(--accent);
   color: var(--btn-text);
   line-height: 1;
   cursor: pointer;
-  position: absolute;
-  left: 50%;
-  bottom: 0px;
-  transform: translateX(-50%);
+  grid-row: 4;
 }
 
 .finish:active {
-  transform: translateX(-50%) scale(0.99);
+  transform: scale(0.99);
+}
+
+@media (max-height: 740px) {
+  .intro {
+    gap: 8px;
+    padding: calc(12px + var(--safe-top)) 16px calc(14px + var(--safe-bottom));
+  }
+
+  .mouth {
+    width: min(60vw, 330px);
+  }
+
+  .message,
+  .touch,
+  .finish {
+    font-size: clamp(18px, 5.8vw, 24px);
+  }
+
+  .game {
+    padding: calc(10px + var(--safe-top)) 16px calc(12px + var(--safe-bottom));
+    row-gap: 6px;
+  }
+
+  .mouth-wrap {
+    --mouth-wrap-width: min(52vw, 260px);
+    height: min(30vh, 190px);
+  }
+
+  .nuts {
+    gap: 10px;
+  }
+
+  .nut img {
+    width: clamp(56px, 16vw, 86px);
+  }
+
+  .finish {
+    height: 40px;
+    min-height: 40px;
+  }
 }
