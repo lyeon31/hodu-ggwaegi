@@ -93,10 +93,6 @@ body {
   overflow: visible;
 }
 
-.mouth-wrap.is-layered {
-  height: calc(var(--mouth-wrap-width) * 0.7);
-}
-
 .mouth-single {
   width: 100%;
   height: auto;
@@ -104,12 +100,8 @@ body {
 }
 
 .mouth-layer {
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
+  height: auto;
   display: block;
 }
 
@@ -130,10 +122,16 @@ body {
 }
 
 #mouthBack {
+  position: relative;
   z-index: 1;
 }
 
 #mouthFront {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
   z-index: 3;
 }
 
