@@ -74,35 +74,45 @@ body {
 .game {
   height: 90vh;
   width: 100%;
-  padding: 0px 20px;
+  padding: 0px 20px 180px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   text-align: center;
   gap: 10px;
   overflow: hidden;
+  position: relative;
 }
 
 .mouth-wrap {
-  --mouth-wrap-width: 65vw;
+  --mouth-wrap-width: min(65vw, 420px);
   position: relative;
-  margin-top: 0;
+  margin-top: auto;
   width: var(--mouth-wrap-width);
+  height: min(52vh, 420px);
   flex: 0 0 auto;
   overflow: visible;
 }
 
 .mouth-single {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  object-fit: contain;
+  object-position: center;
 }
 
 .mouth-layer {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  object-fit: contain;
+  object-position: center;
 }
 
 .hidden {
@@ -152,12 +162,16 @@ body {
 }
 
 .nuts {
-  margin-top: 0;
+  margin: 0;
   width: min(680px, 94vw);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 18px;
+  position: absolute;
+  left: 50%;
+  bottom: 74px;
+  transform: translateX(-50%);
 }
 
 .nut {
@@ -185,7 +199,7 @@ body {
 }
 
 .finish {
-  margin-top: 0;
+  margin: 0;
   width: min(620px, 84vw);
   height: 50px;
   min-height: 50px;
@@ -195,8 +209,12 @@ body {
   color: var(--btn-text);
   line-height: 1;
   cursor: pointer;
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translateX(-50%);
 }
 
 .finish:active {
-  transform: scale(0.99);
+  transform: translateX(-50%) scale(0.99);
 }
