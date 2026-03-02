@@ -1,0 +1,204 @@
+:root {
+  --bg: #f1de5b;
+  --accent: #e13268;
+  --btn-text: #f3e2a1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--accent);
+  font-family: "Arial Black", "Noto Sans KR", sans-serif;
+}
+
+.top-score,
+.score {
+  margin: 0;
+  font-size: 50px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.mouth {
+  width: 70vw;
+  display: block;
+}
+
+.message,
+.touch,
+.finish {
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+/* index */
+.intro {
+  height: 90vh;
+  width: 100%;
+  padding: 0px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.intro .mouth {
+  margin-top: 0;
+}
+
+.message {
+  margin: 0;
+}
+
+.touch {
+  margin-top: 0;
+  color: var(--accent);
+  text-decoration: none;
+  line-height: 1;
+}
+
+/* game */
+.game {
+  height: 90vh;
+  width: 100%;
+  padding: 0px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.mouth-wrap {
+  --mouth-wrap-width: 65vw;
+  position: relative;
+  margin-top: 0;
+  width: var(--mouth-wrap-width);
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.mouth-wrap.is-layered {
+  height: calc(var(--mouth-wrap-width) * 0.7);
+}
+
+.mouth-single {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mouth-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.bite-nut {
+  position: absolute;
+  width: 18vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -42%);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#mouthBack {
+  z-index: 1;
+}
+
+#mouthFront {
+  z-index: 3;
+}
+
+#mouthSingle {
+  z-index: 1;
+}
+
+.bite-nut.show {
+  opacity: 1;
+}
+
+.bite-nut.bite-left {
+  left: 30%;
+}
+
+.bite-nut.bite-right {
+  left: 70%;
+}
+
+.nuts {
+  margin-top: 0;
+  width: min(680px, 94vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.nut {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.nut img {
+  width: 18vw;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.nut:active {
+  transform: scale(0.94);
+}
+
+.nuts.locked .nut {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.finish {
+  margin-top: 0;
+  width: min(620px, 84vw);
+  height: 50px;
+  min-height: 50px;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent);
+  color: var(--btn-text);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.finish:active {
+  transform: scale(0.99);
+}

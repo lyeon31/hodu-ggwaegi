@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>부럼 깨기 게임</title>
+  <link rel="stylesheet" href="css/common.css" />
+</head>
+<body>
+  <main class="game">
+    <h1 class="score" id="score">00</h1>
+
+    <div class="mouth-wrap">
+      <img class="mouth-layer hidden" id="mouthBack" src="" alt="" />
+      <img class="bite-nut" id="biteNut" src="" alt="" />
+      <img class="mouth-layer hidden" id="mouthFront" src="" alt="" />
+      <img class="mouth-single" id="mouthSingle" src="assets/images/mouth1.png" alt="입" />
+    </div>
+
+    <section class="nuts" id="nuts" aria-label="견과류 선택">
+      <button class="nut" type="button" aria-label="밤 깨기">
+        <img src="assets/images/bam.png" alt="밤" />
+      </button>
+      <button class="nut" type="button" aria-label="땅콩 깨기">
+        <img src="assets/images/peanut.png" alt="땅콩" />
+      </button>
+      <button class="nut" type="button" aria-label="호두 깨기">
+        <img src="assets/images/walnut.png" alt="호두" />
+      </button>
+    </section>
+
+    <button class="finish" id="finish" type="button">다 깼다!</button>
+  </main>
+
+  <script>
+    const scoreEl = document.getElementById("score");
+    const mouthWrapEl = document.querySelector(".mouth-wrap");
+    const mouthBackEl = document.getElementById("mouthBack");
+    const mouthFrontEl = document.getElementById("mouthFront");
+    const mouthSingleEl = document.getElementById("mouthSingle");
+    const nutsEl = document.getElementById("nuts");
+    const biteNutEl = document.getElementById("biteNut");
+    const finishBtn = document.getElementById("finish");
+    const nutButtons = [...document.querySelectorAll(".nut")];
+    const crackAudio = new Audio("assets/audio/cracking.m4a");
+    crackAudio.preload = "auto";
+
+    let score = 0;
+    let isAnimating = false;
+
+    const formatScore = (value) => String(value).padStart(2, "0");
+    const playCrackSound = () => {
+      crackAudio.currentTime = 0;
+      crackAudio.play().catch(() => {});
+    };
+    const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+    const hideNut = () => {
+      biteNutEl.classList.remove("show", "bite-left", "bite-right");
+    };
+    const setSingleMouth = (src) => {
+      mouthSingleEl.src = src;
+      mouthWrapEl.classList.remove("is-layered");
+      mouthSingleEl.classList.remove("hidden");
+      mouthBackEl.classList.add("hidden");
+      mouthFrontEl.classList.add("hidden");
+      hideNut();
+    };
+    const setLayerMouth = (backSrc, frontSrc = "") => {
+      mouthWrapEl.classList.add("is-layered");
+      mouthBackEl.src = backSrc;
+      mouthSingleEl.classList.add("hidden");
+      mouthBackEl.classList.remove("hidden");
+      if (frontSrc) {
+        mouthFrontEl.src = frontSrc;
+        mouthFrontEl.classList.remove("hidden");
+      } else {
+        mouthFrontEl.removeAttribute("src");
+        mouthFrontEl.classList.add("hidden");
+      }
+    };
+
+    const crackOneNut = async (event) => {
+      if (isAnimating) return;
+      isAnimating = true;
+      nutsEl.classList.add("locked");
+      const pickedNut = event.currentTarget.querySelector("img");
+      const randomSideClass = Math.random() < 0.5 ? "bite-left" : "bite-right";
+
+      setSingleMouth("assets/images/mouth2.png");
+      await wait(150);
+
+      setLayerMouth("assets/images/mouth3-back.png", "assets/images/mouth3-front.png");
+      playCrackSound();
+      biteNutEl.src = pickedNut.src;
+      biteNutEl.alt = pickedNut.alt;
+      biteNutEl.classList.remove("bite-left", "bite-right");
+      biteNutEl.classList.add(randomSideClass);
+      biteNutEl.classList.add("show");
+      await wait(240);
+
+      setLayerMouth("assets/images/mouth4-back.png", "assets/images/mouth4-front.png");
+      biteNutEl.classList.remove("show");
+      await wait(120);
+      biteNutEl.classList.remove("bite-left", "bite-right");
+      score += 1;
+      scoreEl.textContent = formatScore(score);
+      await wait(180);
+
+      setSingleMouth("assets/images/mouth5.png");
+      await wait(200);
+      setSingleMouth("assets/images/mouth1.png");
+      isAnimating = false;
+      nutsEl.classList.remove("locked");
+    };
+
+    nutButtons.forEach((button) => {
+      button.addEventListener("click", crackOneNut);
+    });
+
+    finishBtn.addEventListener("click", () => {
+      window.location.href = "result.html";
+    });
+  </script>
+</body>
+</html>
